@@ -1,0 +1,37 @@
+{
+  "name": "jsiojs",
+  "version": "0.0.1",
+  "description": "The most powerfull javascript file manager",
+  "main": "jsio",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nfrancois/jsio.js"
+  },
+  "keywords": [
+    "javascript",
+    "io",
+    "file",
+    "js"
+  ],
+  "author": "Nicolas François <nicolas.francois@outlook.com>",
+  "license": "Beerware",
+  "bugs": {
+    "url": "https://github.com/nfrancois/jsio.js/issues"
+  },
+  "homepage": "https://github.com/nfrancois/jsio.js",
+  "bin": {
+    "jsiojs": "./bin/jsio.js"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },  
+  "devDependencies": {
+    "mocha": "~1.17.1",
+    "chai": "~2.2.0",
+    "coveralls": "~2.11.2",
+    "istanbul": "~0.3.1"
+  }
+}
