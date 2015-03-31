@@ -58,6 +58,56 @@ describe('jsiojs', function() {
     })
 })
 
+describe('jsiojs', function() {
+    describe('#deleteFile', function() {
+        it('Should delete a javascript file', function() {
+            // Given
+            var fileName = generateFileName()
+            fs.writeFileSync(fileName,"")
+            fs.existsSync(fileName).should.be.true
+            // When
+            jsiojs.deleteFile(fileName)
+            // Then
+            fs.existsSync(fileName).should.be.false
+        })
+    })
+    
+    describe('#deleteFile', function() {   
+        it('Should fail when no fileName', function() {
+            // When
+            var fn = function(){ jsiojs.deleteFile() }
+            // Then
+            expect(fn).to.throw("file name is missing")
+        })
+    })
+    
+    describe('#deleteFile', function() {   
+        it('Should fail when not a javascript file', function() {
+            // Given
+            var fileName = generateFileName()+".txt"
+            // When
+            var fn = function(){  jsiojs.deleteFile(fileName) }
+            // Then
+            expect(fn).to.throw(fileName+" is not a valid javascript file name")
+        })
+    })
+    
+    describe('#deleteFile', function() {   
+        it('Should fail when file does not exist', function() {
+            // Given
+            var fileName = generateFileName()
+            fs.existsSync(fileName).should.be.false
+            // When
+            var fn = function(){  jsiojs.deleteFile(fileName) }
+            // Then
+            expect(fn).to.throw(fileName+" does not exist")
+        })
+    })
+
+})
+
+
+
 function generateFileName(){
     return tmpDir+Math.random()+".js"    
 }

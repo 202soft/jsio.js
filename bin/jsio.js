@@ -13,6 +13,9 @@ try {
     case "create":
       jsiojs.createFile(params[0])
       break
+    case "delete":
+      jsiojs.deleteFile(params[0])
+      break      
     default:
       console.error("Invalid command")
       break
