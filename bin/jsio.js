@@ -16,6 +16,9 @@ try {
     case "delete":
       jsiojs.deleteFile(params[0])
       break      
+    case "rename":
+      jsiojs.renameFile(params[0], params[1])
+      break      
     default:
       console.error("Invalid command")
       break

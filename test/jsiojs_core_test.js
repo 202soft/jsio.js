@@ -107,6 +107,97 @@ describe('jsiojs', function() {
 })
 
 
+describe('jsiojs', function() {
+    describe('#renameFile', function() {
+        it('Should rename a javascript file', function() {
+            // Given
+            var oldName = generateFileName()
+            fs.writeFileSync(oldName,"")
+            fs.existsSync(oldName).should.be.true
+            var newName = generateFileName()
+            fs.existsSync(newName).should.be.false
+            // When
+            jsiojs.renameFile(oldName, newName)
+            // Then
+            fs.existsSync(oldName).should.be.false
+            fs.existsSync(newName).should.be.true
+        })
+    })
+    
+    describe('#renameFile', function() {   
+        it('Should fail when no fileName', function() {
+            // When
+            var fn = function(){ jsiojs.renameFile() }
+            // Then
+            expect(fn).to.throw("file name is missing")
+        })
+    })
+    
+    describe('#renameFile', function() {   
+        it('Should fail when only one fileName', function() {
+            // Given
+            var oldName = generateFileName()
+            // When
+            var fn = function(){ jsiojs.renameFile(oldName) }
+            // Then
+            expect(fn).to.throw("file name is missing")
+        })
+    })
+    
+    describe('#renameFile', function() {   
+        it('Should fail when oldName not a javascript file', function() {
+            // Given
+            var oldName = generateFileName()+".txt"
+            var newName = generateFileName()
+            // When
+            var fn = function(){  jsiojs.renameFile(oldName, newName) }
+            // Then
+            expect(fn).to.throw(oldName+" is not a valid javascript file name")
+        })
+    })
+    
+    describe('#renameFile', function() {   
+        it('Should fail when newName not a javascript file', function() {
+            // Given
+            var oldName = generateFileName()
+            var newName = generateFileName()+".txt"
+            // When
+            var fn = function(){  jsiojs.renameFile(oldName, newName) }
+            // Then
+            expect(fn).to.throw(newName+" is not a valid javascript file name")
+        })
+    })    
+    
+    describe('#renameFile', function() {   
+        it('Should fail when oldName does not exist', function() {
+            // Given
+            var oldName = generateFileName()
+            var newName = generateFileName()
+            fs.existsSync(oldName).should.be.false
+            // When
+            var fn = function(){  jsiojs.renameFile(oldName, newName) }
+            // Then
+            expect(fn).to.throw(oldName+" does not exist")
+        })
+    })
+    
+    describe('#renameFile', function() {   
+        it('Should fail when newName already exists', function() {
+            // Given
+            var oldName = generateFileName()
+            var newName = generateFileName()
+            fs.writeFileSync(oldName,"")
+            fs.writeFileSync(newName,"")
+            fs.existsSync(newName).should.be.true
+            // When
+            var fn = function(){  jsiojs.renameFile(oldName, newName) }
+            // Then
+            expect(fn).to.throw(newName+" already exists")
+        })
+    })    
+
+})
+
 
 function generateFileName(){
     return tmpDir+Math.random()+".js"    
