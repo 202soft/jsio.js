@@ -198,6 +198,97 @@ describe('jsiojs', function() {
 
 })
 
+describe('jsiojs', function() {
+    describe('#copyFile', function() {
+        it('Should copy a javascript file', function() {
+            // Given
+            var src = generateFileName()
+            fs.writeFileSync(src,"")
+            fs.existsSync(src).should.be.true
+            var dest = generateFileName()
+            fs.existsSync(dest).should.be.false
+            // When
+            jsiojs.copyFile(src, dest)
+            // Then
+            fs.existsSync(src).should.be.true
+            fs.existsSync(dest).should.be.true
+        })
+    })
+    
+    describe('#copyFile', function() {   
+        it('Should fail when no fileName', function() {
+            // When
+            var fn = function(){ jsiojs.copyFile() }
+            // Then
+            expect(fn).to.throw("file name is missing")
+        })
+    })
+    
+    describe('#copyFile', function() {   
+        it('Should fail when only one fileName', function() {
+            // Given
+            var src = generateFileName()
+            // When
+            var fn = function(){ jsiojs.copyFile(src) }
+            // Then
+            expect(fn).to.throw("file name is missing")
+        })
+    })
+    
+    describe('#copyFile', function() {   
+        it('Should fail when source not a javascript file', function() {
+            // Given
+            var src = generateFileName()+".txt"
+            var dest = generateFileName()
+            // When
+            var fn = function(){  jsiojs.copyFile(src, dest) }
+            // Then
+            expect(fn).to.throw(src+" is not a valid javascript file name")
+        })
+    })
+    
+    describe('#copyFile', function() {   
+        it('Should fail when destination not a javascript file', function() {
+            // Given
+            var src = generateFileName()
+            var dest = generateFileName()+".txt"
+            // When
+            var fn = function(){  jsiojs.copyFile(src, dest) }
+            // Then
+            expect(fn).to.throw(dest+" is not a valid javascript file name")
+        })
+    })    
+    
+    describe('#copyFile', function() {   
+        it('Should fail when source does not exist', function() {
+            // Given
+            var src = generateFileName()
+            var dest = generateFileName()
+            fs.existsSync(src).should.be.false
+            // When
+            var fn = function(){  jsiojs.copyFile(src, dest) }
+            // Then
+            expect(fn).to.throw(src+" does not exist")
+        })
+    })
+    
+    describe('#copyFile', function() {   
+        it('Should fail when destination already exists', function() {
+            // Given
+            var src = generateFileName()
+            var dest = generateFileName()
+            fs.writeFileSync(src,"")
+            fs.writeFileSync(dest,"")
+            fs.existsSync(dest).should.be.true
+            // When
+            var fn = function(){  jsiojs.renameFile(src, dest) }
+            // Then
+            expect(fn).to.throw(dest+" already exists")
+        })
+    })     
+
+})
+
 
 function generateFileName(){
     return tmpDir+Math.random()+".js"    

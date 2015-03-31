@@ -19,6 +19,9 @@ try {
     case "rename":
       jsiojs.renameFile(params[0], params[1])
       break      
+    case "copy":
+      jsiojs.copyFile(params[0], params[1])
+      break      
     default:
       console.error("Invalid command")
       break
