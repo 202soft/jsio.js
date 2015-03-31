@@ -289,6 +289,54 @@ describe('jsiojs', function() {
 
 })
 
+describe('jsiojs', function() {
+    describe('#showFile', function() {
+        it('Should show a javascript file', function() {
+            // Given
+            var fileName = generateFileName()
+            fs.writeFileSync(fileName,"")
+            fs.existsSync(fileName).should.be.true
+            // When
+            jsiojs.showFile(fileName)
+            // Then
+            fs.existsSync(fileName).should.be.true
+        })
+    })
+    
+    
+    describe('#showFile', function() {   
+        it('Should fail when no fileName', function() {
+            // When
+            var fn = function(){ jsiojs.showFile() }
+            // Then
+            expect(fn).to.throw("file name is missing")
+        })
+    })
+    
+    describe('#showFile', function() {   
+        it('Should fail when not a javascript file', function() {
+            // Given
+            var fileName = generateFileName()+".txt"
+            // When
+            var fn = function(){ jsiojs.showFile(fileName) }
+            // Then
+            expect(fn).to.throw(fileName+" is not a valid javascript file name")
+
+        })
+    })
+    
+    describe('#showFile', function() {   
+    it('Should fail when file does not exist', function() {
+            // Given
+            var fileName = generateFileName()
+             fs.existsSync(fileName).should.be.false
+            // When
+            var fn = function(){ jsiojs.showFile(fileName) }
+            // Then
+            expect(fn).to.throw(fileName+" does not exist")
+        })
+    })
+})
 
 function generateFileName(){
     return tmpDir+Math.random()+".js"    

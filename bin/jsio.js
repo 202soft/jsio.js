@@ -22,6 +22,9 @@ try {
     case "copy":
       jsiojs.copyFile(params[0], params[1])
       break      
+    case "show":
+      jsiojs.showFile(params[0])
+      break 
     default:
       console.error("Invalid command")
       break
