@@ -2,12 +2,15 @@
 
 
 ![Npm Version](https://img.shields.io/npm/v/jsiojs.svg)
+![Licence](https://img.shields.io/npm/l/jsiojs.svg)
 ![Node Required](https://img.shields.io/node/v/jsiojs.svg)
 [![Build Status](https://travis-ci.org/nfrancois/jsio.js.svg?branch=master)](https://travis-ci.org/nfrancois/jsio.js)
 [![Code Climate](https://codeclimate.com/github/nfrancois/jsio.js/badges/gpa.svg)](https://codeclimate.com/github/nfrancois/jsio.js)
 [![Coverage Status](https://coveralls.io/repos/nfrancois/jsio.js/badge.svg)](https://coveralls.io/r/nfrancois/jsio.js)
 [![Dependencies Status](https://david-dm.org/nfrancois/jsio.js.svg)](https://david-dm.org/nfrancois/jsio.js)
 ![Monthly Download](https://img.shields.io/npm/dm/jsiojs.svg)
+![Total Download](https://img.shields.io/npm/dt/jsiojs.svg)
+
 
 The most powerfull javascript file manager
 
