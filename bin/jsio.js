@@ -4,12 +4,28 @@
 var jsiojs = require('../lib/jsiojs_core')
 var colors = require("colors")
 var program = require('commander');
- 
+
 var args = process.argv
-
-var command = args[2]
 var params = args.slice(3)
+//var command = args[2]
 
+
+program
+  .version("42.0.0")
+  .option("create [filename]", "Create a new js file")
+  .parse(process.argv)
+  
+try {  
+  if(program.create){
+      var filename = program.create
+      jsiojs.createFile(filename).then(function(){
+        success('File '+filename+' created with success !')
+      })  
+  }  
+} catch(err){
+  console.error(err .red);
+}
+/*
 try {
   switch(command){
     case "create":
@@ -50,6 +66,7 @@ try {
 } catch(err){
   console.error(err .red);
 }
+*/
 
 function success(message){
   console.info(message .green)
