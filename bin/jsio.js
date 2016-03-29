@@ -2,6 +2,7 @@
 // bin/jsiojs
 
 var jsiojs = require('../lib/jsiojs_core')
+var colors = require("colors")
  
 var args = process.argv
 
@@ -26,9 +27,9 @@ try {
       jsiojs.showFile(params[0])
       break 
     default:
-      console.error("Invalid command")
+      console.error("Invalid command" .red)
       break
   }
 } catch(err){
-  console.error(err);
+  console.error(err .red);
 }
