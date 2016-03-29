@@ -31,7 +31,10 @@
   },
   "engines": {
     "node": ">= 0.10.0"
-  },  
+  },
+  "dependencies": {
+    "colors" : "~1.1.2"
+  },
   "devDependencies": {
     "mocha": "~1.17.1",
     "chai": "~2.2.0",
