@@ -3,6 +3,7 @@
 
 var jsiojs = require('../lib/jsiojs_core')
 var colors = require("colors")
+var program = require('commander');
  
 var args = process.argv
 
