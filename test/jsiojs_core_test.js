@@ -1,6 +1,9 @@
 var chai = require('chai')
 var jsiojs = require('../lib/jsiojs_core')
 var fs = require("fs")
+var MockFs = require("q-io/fs-mock");
+
+var mockFs = MockFs()
 
 chai.should()
 var expect = chai.expect
@@ -16,9 +19,10 @@ describe('jsiojs', function() {
             var fileName = generateFileName()
             fs.existsSync(fileName).should.be.false
             // When
-            jsiojs.createFile(fileName)
-            // Then
-            fs.existsSync(fileName).should.be.true
+            jsiojs.createFile(fileName).then(function(){
+                 // Then
+                fs.existsSync(fileName).should.be.true               
+            })
         })
     })
     
@@ -66,9 +70,11 @@ describe('jsiojs', function() {
             fs.writeFileSync(fileName,"")
             fs.existsSync(fileName).should.be.true
             // When
-            jsiojs.deleteFile(fileName)
-            // Then
-            fs.existsSync(fileName).should.be.false
+            jsiojs.deleteFile(fileName).then(function(){
+              // Then
+              fs.existsSync(fileName).should.be.false                
+            })
+
         })
     })
     
@@ -117,10 +123,11 @@ describe('jsiojs', function() {
             var newName = generateFileName()
             fs.existsSync(newName).should.be.false
             // When
-            jsiojs.renameFile(oldName, newName)
-            // Then
-            fs.existsSync(oldName).should.be.false
-            fs.existsSync(newName).should.be.true
+            jsiojs.renameFile(oldName, newName).then(function(){
+              // Then
+              fs.existsSync(oldName).should.be.false
+              fs.existsSync(newName).should.be.true
+            })
         })
     })
     
@@ -208,10 +215,11 @@ describe('jsiojs', function() {
             var dest = generateFileName()
             fs.existsSync(dest).should.be.false
             // When
-            jsiojs.copyFile(src, dest)
-            // Then
-            fs.existsSync(src).should.be.true
-            fs.existsSync(dest).should.be.true
+            jsiojs.copyFile(src, dest).then(function function_name(argument) {
+              // Then
+              fs.existsSync(src).should.be.true
+              fs.existsSync(dest).should.be.true
+            })
         })
     })
     
