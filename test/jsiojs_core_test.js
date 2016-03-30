@@ -30,9 +30,10 @@ describe('jsiojs', function() {
     describe('#createFile', function() {   
         it('Should fail when no fileName', function() {
             // When
-            var fn = function(){ jsiojs.createFile() }
-            // Then
-            expect(fn).to.throw("file name is missing")
+            jsiojs.createFile().then(null, function(err){
+                // Then
+                err.to.be("file name is missing")
+            })
         })
     })
     
@@ -41,10 +42,10 @@ describe('jsiojs', function() {
             // Given
             var fileName = generateFileName()+".txt"
             // When
-            var fn = function(){ jsiojs.createFile(fileName) }
-            // Then
-            expect(fn).to.throw(fileName+" is not a valid javascript file name")
-
+            jsiojs.createFile(fileName).then(null, function(err){
+                // Then
+                err.to.be(fileName+" is not a valid javascript file name")
+            })
         })
     })
     
@@ -55,9 +56,10 @@ describe('jsiojs', function() {
             fs.writeFileSync(fileName,"")
             fs.existsSync(fileName).should.be.true
             // When
-            var fn = function(){ jsiojs.createFile(fileName) }
-            // Then
-            expect(fn).to.throw(fileName+" already exists")
+            jsiojs.createFile(fileName).then(null, function(err){
+                // Then
+                err.to.be(fileName+" already exists")
+            })
         })
     })
 })
@@ -81,9 +83,10 @@ describe('jsiojs', function() {
     describe('#deleteFile', function() {   
         it('Should fail when no fileName', function() {
             // When
-            var fn = function(){ jsiojs.deleteFile() }
-            // Then
-            expect(fn).to.throw("file name is missing")
+            jsiojs.deleteFile().then(null, function(err){
+                // Then
+                err.to.be("file name is missing")
+            })
         })
     })
     
@@ -92,9 +95,10 @@ describe('jsiojs', function() {
             // Given
             var fileName = generateFileName()+".txt"
             // When
-            var fn = function(){  jsiojs.deleteFile(fileName) }
-            // Then
-            expect(fn).to.throw(fileName+" is not a valid javascript file name")
+            jsiojs.deleteFile(fileName).then(null, function(err){
+                // Then
+                err.to.be(fileName+" is not a valid javascript file name")
+            })
         })
     })
     
@@ -104,14 +108,14 @@ describe('jsiojs', function() {
             var fileName = generateFileName()
             fs.existsSync(fileName).should.be.false
             // When
-            var fn = function(){  jsiojs.deleteFile(fileName) }
-            // Then
-            expect(fn).to.throw(fileName+" does not exist")
+            jsiojs.deleteFile(fileName).then(null, function(err){
+                // Then
+                err.to.be(fileName+" does not exist")
+            })
         })
     })
 
 })
-
 
 describe('jsiojs', function() {
     describe('#renameFile', function() {
@@ -134,9 +138,10 @@ describe('jsiojs', function() {
     describe('#renameFile', function() {   
         it('Should fail when no fileName', function() {
             // When
-            var fn = function(){ jsiojs.renameFile() }
-            // Then
-            expect(fn).to.throw("file name is missing")
+            jsiojs.renameFile().catch(null, function(err){
+                // Then
+                err.to.be("file name is missing")  
+            })
         })
     })
     
@@ -145,9 +150,10 @@ describe('jsiojs', function() {
             // Given
             var oldName = generateFileName()
             // When
-            var fn = function(){ jsiojs.renameFile(oldName) }
-            // Then
-            expect(fn).to.throw("file name is missing")
+            jsiojs.renameFile(oldName).catch(null, function(err){
+                // Then
+                err.to.be("file name is missing")
+            })
         })
     })
     
@@ -157,9 +163,11 @@ describe('jsiojs', function() {
             var oldName = generateFileName()+".txt"
             var newName = generateFileName()
             // When
-            var fn = function(){  jsiojs.renameFile(oldName, newName) }
-            // Then
-            expect(fn).to.throw(oldName+" is not a valid javascript file name")
+            jsiojs.renameFile(oldName, newName).then(null, function(err){
+                // Then
+                err.to.be(oldName+" is not a valid javascript file name")                
+            })
+
         })
     })
     
@@ -169,9 +177,10 @@ describe('jsiojs', function() {
             var oldName = generateFileName()
             var newName = generateFileName()+".txt"
             // When
-            var fn = function(){  jsiojs.renameFile(oldName, newName) }
-            // Then
-            expect(fn).to.throw(newName+" is not a valid javascript file name")
+            jsiojs.renameFile(oldName, newName).then(null, function(err){
+                // Then
+                err.to.be(newName+" is not a valid javascript file name")               
+            })
         })
     })    
     
@@ -182,9 +191,10 @@ describe('jsiojs', function() {
             var newName = generateFileName()
             fs.existsSync(oldName).should.be.false
             // When
-            var fn = function(){  jsiojs.renameFile(oldName, newName) }
-            // Then
-            expect(fn).to.throw(oldName+" does not exist")
+            jsiojs.renameFile(oldName, newName).then(null, function(err){
+                // Then
+                err.to.be(oldName+" does not exist")         
+            })
         })
     })
     
@@ -197,14 +207,15 @@ describe('jsiojs', function() {
             fs.writeFileSync(newName,"")
             fs.existsSync(newName).should.be.true
             // When
-            var fn = function(){  jsiojs.renameFile(oldName, newName) }
-            // Then
-            expect(fn).to.throw(newName+" already exists")
+            jsiojs.renameFile(oldName, newName).then(null, function(err){
+                // Then
+                err.to.be(newName+" already exists")               
+            })
         })
     })    
 
 })
-
+/*
 describe('jsiojs', function() {
     describe('#copyFile', function() {
         it('Should copy a javascript file', function() {
@@ -345,6 +356,7 @@ describe('jsiojs', function() {
         })
     })
 })
+*/
 
 function generateFileName(){
     return tmpDir+Math.random()+".js"    
