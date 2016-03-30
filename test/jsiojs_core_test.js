@@ -1,363 +1,229 @@
-var chai = require('chai')
-var jsiojs = require('../lib/jsiojs_core')
+var jsiojs = require("../lib/jsiojs_core")
+var chai = require("chai")
+var chaiAsPromised = require("chai-as-promised")
 var fs = require("fs")
-var MockFs = require("q-io/fs-mock");
-
-var mockFs = MockFs()
 
 chai.should()
-var expect = chai.expect
+chai.use(chaiAsPromised)
 
-// Prepare for test
-var tmpDir = "tmp-"+Math.random()+"/"
-fs.mkdirSync(tmpDir)
+describe('jsiojs', () => {
+    
+    beforeEach(init)  
+    
+    afterEach(clean)
+  
+    describe('#createFile', () => 
+        it('Should create a javascript file', () => 
+            jsiojs.createFile("hello.js").then(() => fs.existsSync("hello.js").should.be.true)
+        )
+    )
 
-describe('jsiojs', function() {
-    describe('#createFile', function() {
-        it('Should create a javascript file', function() {
-            // Given
-            var fileName = generateFileName()
-            fs.existsSync(fileName).should.be.false
-            // When
-            jsiojs.createFile(fileName).then(function(){
-                 // Then
-                fs.existsSync(fileName).should.be.true               
-            })
-        })
-    })
+    describe('#createFile', () =>   
+        it('Should fail when no filename',  () =>
+            jsiojs.createFile().should.be.rejectedWith("filename is missing")
+        )
+    )
     
+    describe('#createFile', () => 
+        it('Should fail when not a javascript file', () =>
+            jsiojs.createFile("hello.txt").should.be.rejectedWith("'hello.txt' is not a valid javascript filename")
+        )
+    )
     
-    describe('#createFile', function() {   
-        it('Should fail when no fileName', function() {
-            // When
-            jsiojs.createFile().then(null, function(err){
-                // Then
-                err.to.be("file name is missing")
-            })
-        })
-    })
-    
-    describe('#createFile', function() {   
-        it('Should fail when not a javascript file', function() {
-            // Given
-            var fileName = generateFileName()+".txt"
-            // When
-            jsiojs.createFile(fileName).then(null, function(err){
-                // Then
-                err.to.be(fileName+" is not a valid javascript file name")
-            })
-        })
-    })
-    
-    describe('#createFile', function() {   
-    it('Should fail when file already exists', function() {
-            // Given
-            var fileName = generateFileName()
-            fs.writeFileSync(fileName,"")
-            fs.existsSync(fileName).should.be.true
-            // When
-            jsiojs.createFile(fileName).then(null, function(err){
-                // Then
-                err.to.be(fileName+" already exists")
-            })
-        })
-    })
+    describe('#createFile', () =>   
+        it('Should fail when file already exists', () =>
+            jsiojs.createFile("wonderfull.js").should.be.rejectedWith("'wonderfull.js' already exists")
+        )
+    )
 })
 
-describe('jsiojs', function() {
-    describe('#deleteFile', function() {
-        it('Should delete a javascript file', function() {
-            // Given
-            var fileName = generateFileName()
-            fs.writeFileSync(fileName,"")
-            fs.existsSync(fileName).should.be.true
+describe('jsiojs', () => {
+
+    beforeEach(init)  
+    
+    afterEach(clean)  
+  
+    describe('#deleteFile', () =>
+        it('Should delete a javascript file', () =>
+            jsiojs.deleteFile('wonderfull.js').then(() => fs.existsSync('wonderfull.js').should.be.false)                
+        )
+    )
+    
+    describe('#deleteFile', () => 
+        it('Should fail when no filename', () =>
+            jsiojs.deleteFile().should.be.rejectedWith("filename is missing")
+        )
+    )
+    
+    describe('#deleteFile', () =>  
+        it('Should fail when not a javascript file', () =>
+            jsiojs.deleteFile("wonderfull.txt").should.be.rejectedWith("'wonderfull.txt' is not a valid javascript filename")
+        )
+    )
+    
+    describe('#deleteFile', () => 
+        it('Should fail when file does not exist', () =>
+            jsiojs.deleteFile("hello.js").should.be.rejectedWith("'hello.js' does not exist")
+        )
+    )
+
+})
+
+describe('jsiojs', () => {
+
+    beforeEach(init)  
+    
+    afterEach(clean)
+    
+    describe('#renameFile', () =>
+        it('Should rename a javascript file', () =>
             // When
-            jsiojs.deleteFile(fileName).then(function(){
+            jsiojs.renameFile("wonderfull.js","hello.js").then(() => {
               // Then
-              fs.existsSync(fileName).should.be.false                
+              fs.existsSync("wonderfull.js").should.be.false
+              fs.existsSync("hello.js").should.be.true
             })
-
-        })
-    })
+        )
+    )
     
-    describe('#deleteFile', function() {   
-        it('Should fail when no fileName', function() {
-            // When
-            jsiojs.deleteFile().then(null, function(err){
-                // Then
-                err.to.be("file name is missing")
-            })
-        })
-    })
+    describe('#renameFile', () =>   
+        it('Should fail when no filename', () =>
+            jsiojs.renameFile().should.be.rejectedWith("filename is missing")
+        )
+    )
     
-    describe('#deleteFile', function() {   
-        it('Should fail when not a javascript file', function() {
-            // Given
-            var fileName = generateFileName()+".txt"
-            // When
-            jsiojs.deleteFile(fileName).then(null, function(err){
-                // Then
-                err.to.be(fileName+" is not a valid javascript file name")
-            })
+    describe('#renameFile', () => 
+        it('Should fail when only one filename', () => {
+            jsiojs.renameFile("wonderfull.js").should.be.rejectedWith("filename is missing")
         })
-    })
+    )
     
-    describe('#deleteFile', function() {   
-        it('Should fail when file does not exist', function() {
-            // Given
-            var fileName = generateFileName()
-            fs.existsSync(fileName).should.be.false
-            // When
-            jsiojs.deleteFile(fileName).then(null, function(err){
-                // Then
-                err.to.be(fileName+" does not exist")
-            })
-        })
-    })
-
-})
-
-describe('jsiojs', function() {
-    describe('#renameFile', function() {
-        it('Should rename a javascript file', function() {
-            // Given
-            var oldName = generateFileName()
-            fs.writeFileSync(oldName,"")
-            fs.existsSync(oldName).should.be.true
-            var newName = generateFileName()
-            fs.existsSync(newName).should.be.false
-            // When
-            jsiojs.renameFile(oldName, newName).then(function(){
-              // Then
-              fs.existsSync(oldName).should.be.false
-              fs.existsSync(newName).should.be.true
-            })
-        })
-    })
+    describe('#renameFile', () =>
+        it('Should fail when oldname not a javascript file', () =>
+            jsiojs.renameFile("wonderfull.txt", "hello.js").should.be.rejectedWith("'wonderfull.txt' is not a valid javascript filename")                
+        )
+    )
     
-    describe('#renameFile', function() {   
-        it('Should fail when no fileName', function() {
-            // When
-            jsiojs.renameFile().catch(null, function(err){
-                // Then
-                err.to.be("file name is missing")  
-            })
-        })
-    })
+    describe('#renameFile', () =>
+        it('Should fail when newname not a javascript file', () =>
+            jsiojs.renameFile("wonderfull.js", "hello.txt").should.be.rejectedWith("'hello.txt' is not a valid javascript filename")
+        )
+    )    
     
-    describe('#renameFile', function() {   
-        it('Should fail when only one fileName', function() {
-            // Given
-            var oldName = generateFileName()
-            // When
-            jsiojs.renameFile(oldName).catch(null, function(err){
-                // Then
-                err.to.be("file name is missing")
-            })
-        })
-    })
+    describe('#renameFile', () =>   
+        it('Should fail when oldname does not exist', () =>
+            jsiojs.renameFile("hello.js", "wonderfull.js").should.be.rejectedWith("'hello.js' does not exist")
+        )
+    )
     
-    describe('#renameFile', function() {   
-        it('Should fail when oldName not a javascript file', function() {
-            // Given
-            var oldName = generateFileName()+".txt"
-            var newName = generateFileName()
-            // When
-            jsiojs.renameFile(oldName, newName).then(null, function(err){
-                // Then
-                err.to.be(oldName+" is not a valid javascript file name")                
-            })
-
-        })
-    })
-    
-    describe('#renameFile', function() {   
-        it('Should fail when newName not a javascript file', function() {
-            // Given
-            var oldName = generateFileName()
-            var newName = generateFileName()+".txt"
-            // When
-            jsiojs.renameFile(oldName, newName).then(null, function(err){
-                // Then
-                err.to.be(newName+" is not a valid javascript file name")               
-            })
-        })
-    })    
-    
-    describe('#renameFile', function() {   
-        it('Should fail when oldName does not exist', function() {
-            // Given
-            var oldName = generateFileName()
-            var newName = generateFileName()
-            fs.existsSync(oldName).should.be.false
-            // When
-            jsiojs.renameFile(oldName, newName).then(null, function(err){
-                // Then
-                err.to.be(oldName+" does not exist")         
-            })
-        })
-    })
-    
-    describe('#renameFile', function() {   
-        it('Should fail when newName already exists', function() {
-            // Given
-            var oldName = generateFileName()
-            var newName = generateFileName()
-            fs.writeFileSync(oldName,"")
-            fs.writeFileSync(newName,"")
-            fs.existsSync(newName).should.be.true
-            // When
-            jsiojs.renameFile(oldName, newName).then(null, function(err){
-                // Then
-                err.to.be(newName+" already exists")               
-            })
-        })
-    })    
-
-})
-/*
-describe('jsiojs', function() {
-    describe('#copyFile', function() {
-        it('Should copy a javascript file', function() {
-            // Given
-            var src = generateFileName()
-            fs.writeFileSync(src,"")
-            fs.existsSync(src).should.be.true
-            var dest = generateFileName()
-            fs.existsSync(dest).should.be.false
-            // When
-            jsiojs.copyFile(src, dest).then(function function_name(argument) {
-              // Then
-              fs.existsSync(src).should.be.true
-              fs.existsSync(dest).should.be.true
-            })
-        })
-    })
-    
-    describe('#copyFile', function() {   
-        it('Should fail when no fileName', function() {
-            // When
-            var fn = function(){ jsiojs.copyFile() }
-            // Then
-            expect(fn).to.throw("file name is missing")
-        })
-    })
-    
-    describe('#copyFile', function() {   
-        it('Should fail when only one fileName', function() {
-            // Given
-            var src = generateFileName()
-            // When
-            var fn = function(){ jsiojs.copyFile(src) }
-            // Then
-            expect(fn).to.throw("file name is missing")
-        })
-    })
-    
-    describe('#copyFile', function() {   
-        it('Should fail when source not a javascript file', function() {
-            // Given
-            var src = generateFileName()+".txt"
-            var dest = generateFileName()
-            // When
-            var fn = function(){  jsiojs.copyFile(src, dest) }
-            // Then
-            expect(fn).to.throw(src+" is not a valid javascript file name")
-        })
-    })
-    
-    describe('#copyFile', function() {   
-        it('Should fail when destination not a javascript file', function() {
-            // Given
-            var src = generateFileName()
-            var dest = generateFileName()+".txt"
-            // When
-            var fn = function(){  jsiojs.copyFile(src, dest) }
-            // Then
-            expect(fn).to.throw(dest+" is not a valid javascript file name")
-        })
-    })    
-    
-    describe('#copyFile', function() {   
-        it('Should fail when source does not exist', function() {
-            // Given
-            var src = generateFileName()
-            var dest = generateFileName()
-            fs.existsSync(src).should.be.false
-            // When
-            var fn = function(){  jsiojs.copyFile(src, dest) }
-            // Then
-            expect(fn).to.throw(src+" does not exist")
-        })
-    })
-    
-    describe('#copyFile', function() {   
-        it('Should fail when destination already exists', function() {
-            // Given
-            var src = generateFileName()
-            var dest = generateFileName()
-            fs.writeFileSync(src,"")
-            fs.writeFileSync(dest,"")
-            fs.existsSync(dest).should.be.true
-            // When
-            var fn = function(){  jsiojs.renameFile(src, dest) }
-            // Then
-            expect(fn).to.throw(dest+" already exists")
-        })
-    })     
+    describe('#renameFile', () =>   
+        it('Should fail when newname already exists', () =>
+            jsiojs.renameFile("wonderfull.js", "another.js").should.be.rejectedWith("'another.js' already exists")               
+        )
+    )    
 
 })
 
-describe('jsiojs', function() {
-    describe('#showFile', function() {
-        it('Should show a javascript file', function() {
-            // Given
-            var fileName = generateFileName()
-            fs.writeFileSync(fileName,"")
-            fs.existsSync(fileName).should.be.true
-            // When
-            jsiojs.showFile(fileName)
-            // Then
-            fs.existsSync(fileName).should.be.true
-        })
-    })
-    
-    
-    describe('#showFile', function() {   
-        it('Should fail when no fileName', function() {
-            // When
-            var fn = function(){ jsiojs.showFile() }
-            // Then
-            expect(fn).to.throw("file name is missing")
-        })
-    })
-    
-    describe('#showFile', function() {   
-        it('Should fail when not a javascript file', function() {
-            // Given
-            var fileName = generateFileName()+".txt"
-            // When
-            var fn = function(){ jsiojs.showFile(fileName) }
-            // Then
-            expect(fn).to.throw(fileName+" is not a valid javascript file name")
+describe('jsiojs', () => {
 
-        })
-    })
+    beforeEach(init)  
     
-    describe('#showFile', function() {   
-    it('Should fail when file does not exist', function() {
-            // Given
-            var fileName = generateFileName()
-             fs.existsSync(fileName).should.be.false
-            // When
-            var fn = function(){ jsiojs.showFile(fileName) }
-            // Then
-            expect(fn).to.throw(fileName+" does not exist")
-        })
-    })
+    afterEach(clean)  
+  
+    describe('#copyFile', () =>
+        it('Should copy a javascript file', () =>
+            jsiojs.copyFile("wonderfull.js", "hello.js").then(() => {
+              fs.existsSync("wonderfull.js").should.be.true
+              fs.existsSync("hello.js").should.be.true
+            })
+        )
+    )
+    
+    describe('#copyFile', () =>  
+        it('Should fail when no filename', () =>
+            jsiojs.copyFile().should.be.rejectedWith("filename is missing")
+        )
+    )
+    
+    describe('#copyFile', () =>  
+        it('Should fail when only one filename', () =>
+            jsiojs.copyFile("wonderfull.js").should.be.rejectedWith("filename is missing")
+        )
+    )
+    
+    describe('#copyFile', () =>
+        it('Should fail when source not a javascript file', () =>
+            jsiojs.copyFile("wonderfull.txt", "hello.js").should.be.rejectedWith("'wonderfull.txt' is not a valid javascript filename")
+        )
+    )
+    
+    describe('#copyFile', () =>  
+        it('Should fail when destination not a javascript file', () =>
+            jsiojs.copyFile("wonderfull.js", "hello.txt").should.be.rejectedWith("'hello.txt' is not a valid javascript filename")
+        )
+    )    
+    
+    describe('#copyFile', () =>   
+        it('Should fail when source does not exist', () =>
+            jsiojs.copyFile("hello.js", "hi.js").should.be.rejectedWith("'hello.js' does not exist")
+        )
+    )
+    
+    describe('#copyFile', () =>
+        it('Should fail when destination already exists', () =>
+            jsiojs.renameFile("wonderfull.js", "another.js").should.be.rejectedWith("'another.js' already exists")
+        )
+    )     
+
 })
-*/
 
-function generateFileName(){
-    return tmpDir+Math.random()+".js"    
+describe('jsiojs', () => {
+
+    beforeEach(init)  
+    
+    afterEach(clean)  
+  
+    describe('#showFile', () =>
+        it('Should show a javascript file', () =>
+            jsiojs.showFile("wonderfull.js").should.eventually.equal("//A simple js file")
+        )
+    )
+
+    describe('#showFile', () =>  
+        it('Should fail when no filename', () =>
+            jsiojs.showFile().should.be.rejectedWith("filename is missing")
+        )
+    )
+    
+    describe('#showFile', () =>   
+        it('Should fail when not a javascript file', () =>
+            jsiojs.showFile("wonderfull.txt").should.be.rejectedWith("'wonderfull.txt' is not a valid javascript filename")
+        )
+    )
+    
+    describe('#showFile', () => 
+        it('Should fail when file does not exist', () =>
+            jsiojs.showFile("hello.js").should.be.rejectedWith("'hello.js' does not exist")
+        )
+    )
+})
+
+function init() {
+  fs.writeFile("wonderfull.js", "//A simple js file")
+  fs.writeFile("wonderfull.txt", "A simple text file")
+  fs.writeFile("another.js", "// Yet another js file")
+}
+
+function clean() {
+  deleteIfExists("wonderfull.js")
+  deleteIfExists("wonderfull.txt")
+  deleteIfExists("hello.js")
+  deleteIfExists("hello.txt")
+  deleteIfExists("another.js")
+}
+
+function deleteIfExists(filename){
+  if(fs.existsSync(filename)){
+    fs.unlink(filename)
+  }
 }
