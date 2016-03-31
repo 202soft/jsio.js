@@ -1,9 +1,9 @@
 # Jsio.js
 
+![Npm Version](https://img.shields.io/npm/v/jsiojs.svg)
 ![Power](https://img.shields.io/badge/power-%E2%88%9E-green.svg)
 ![Licence](https://img.shields.io/npm/l/jsiojs.svg)
 ![Node Required](https://img.shields.io/node/v/jsiojs.svg)
-![Npm Version](https://img.shields.io/npm/v/jsiojs.svg)
 [![Build Status](https://travis-ci.org/nfrancois/jsio.js.svg?branch=master)](https://travis-ci.org/nfrancois/jsio.js)
 [![Code Climate](https://codeclimate.com/github/nfrancois/jsio.js/badges/gpa.svg)](https://codeclimate.com/github/nfrancois/jsio.js)
 [![Coverage Status](https://coveralls.io/repos/nfrancois/jsio.js/badge.svg)](https://coveralls.io/r/nfrancois/jsio.js)
