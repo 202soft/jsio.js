@@ -5,7 +5,7 @@ var jsiojs = require('../lib/jsiojs_core')
 var colors = require("colors")
 var program = require('commander');
 
-program.version("42.0.0")
+program.version("42.0.0");
 
 program
   .command("create [filename]")
@@ -15,7 +15,7 @@ program
       .createFile(filename)
       .then(() => success(`File '${filename}' created with success !`))
       .fail(fail)    
-  )
+  );
 
 program
   .command("delete [filename]")
@@ -25,7 +25,7 @@ program
       .deleteFile(filename)
       .then(() => success(`File '${filename}' deleted with success !`))
       .fail(fail)      
-  )
+  );
   
 program
   .command("rename [oldname] [newname]")
@@ -35,7 +35,7 @@ program
         .renameFile(oldname, newname)
         .then(() => success(`File '${oldname}' moved to '${newname}' with success !`))
         .fail(fail)
-  )
+  );
 
 program
   .command("copy [source] [destination]")
@@ -45,7 +45,7 @@ program
         .copyFile(source, destination)
         .then(() => success(`File '${source}' copied to '${destination}' with success !`))
         .fail(fail)
-  )
+  );
   
 program
   .command("show [filename]")
@@ -55,7 +55,7 @@ program
         .showFile(filename)
         .then((content) => console.info(content))
         .fail(fail)
-  )
+  );
 
 program.parse(process.argv)
 
@@ -63,5 +63,5 @@ if (!process.argv.slice(2).length) {
   program.outputHelp();
 }
 
-function success(message){ console.info(message .green) }
-function fail(message) { console.error(message .red) }
+function success(message){ console.info(message .green); }
+function fail(message) { console.error(message .red); }

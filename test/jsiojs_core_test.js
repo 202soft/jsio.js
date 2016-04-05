@@ -3,14 +3,14 @@ var chai = require("chai")
 var chaiAsPromised = require("chai-as-promised")
 var fs = require("fs")
 
-chai.should()
-chai.use(chaiAsPromised)
+chai.should();
+chai.use(chaiAsPromised);
 
 describe('jsiojs', () => {
     
-    beforeEach(init)  
+    beforeEach(init);  
     
-    afterEach(clean)
+    afterEach(clean);
   
     describe('#createFile', () => 
         it('Should create a javascript file', () => 

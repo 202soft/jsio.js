@@ -4,7 +4,7 @@ var jsiojs = require("jsiojs")
 jsiojs.createFile("wonderful.js")
       .then(function(){
         // Oh my god, the file contains a typo. I should fix !
-        return jsiojs.renameFile("wonderful.js", "wonderfull.js") 
+        return jsiojs.renameFile("wonderful.js", "wonderfull.js"); 
       }).then(function(){
-         console.log("Ready for a wonderfull project !") 
+         console.log("Ready for a wonderfull project !"); 
       })
