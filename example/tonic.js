@@ -1,5 +1,5 @@
 // Sample for tonic : https://tonicdev.com/npm/jsiojs
-var jsiojs = require("jsiojs")
+var jsiojs = require("jsiojs");
 // Start of my wonderfull project
 jsiojs.createFile("wonderful.js")
       .then(function(){
@@ -7,4 +7,4 @@ jsiojs.createFile("wonderful.js")
         return jsiojs.renameFile("wonderful.js", "wonderfull.js"); 
       }).then(function(){
          console.log("Ready for a wonderfull project !"); 
-      })
+      });
