@@ -6,7 +6,6 @@
 ![Node Required](https://img.shields.io/node/v/jsiojs.svg)
 [![Build Status](https://travis-ci.org/202soft/jsio.js.svg?branch=master)](https://travis-ci.org/202soft/jsio.js)
 [![Code Climate](https://codeclimate.com/github/202soft/jsio.js/badges/gpa.svg)](https://codeclimate.com/github/202soft/jsio.js)
-[![Coverage Status](https://coveralls.io/repos/202soft/jsio.js/badge.svg)](https://coveralls.io/r/202soft/jsio.js)
 [![Dependencies Status](https://david-dm.org/202soft/jsio.js.svg)](https://david-dm.org/202soft/jsio.js)
 ![Monthly Download](https://img.shields.io/npm/dm/jsiojs.svg)
 ![Total Download](https://img.shields.io/npm/dt/jsiojs.svg)
