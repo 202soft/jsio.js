@@ -11,7 +11,7 @@
   }, 
   "repository": {
     "type": "git",
-    "url": "https://github.com/nfrancois/jsio.js"
+    "url": "https://github.com/202soft/jsio.js"
   },
   "keywords": [
     "javascript",
@@ -23,9 +23,9 @@
   "author": "Nicolas François <nicolas.francois@outlook.com>",
   "license": "Beerware",
   "bugs": {
-    "url": "https://github.com/nfrancois/jsio.js/issues"
+    "url": "https://github.com/202soft/jsio.js/issues"
   },
-  "homepage": "https://github.com/nfrancois/jsio.js",
+  "homepage": "https://github.com/202soft/jsio.js",
   "bin": {
     "jsiojs": "./bin/jsio.js"
   },
